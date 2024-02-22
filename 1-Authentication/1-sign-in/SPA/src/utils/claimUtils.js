@@ -184,18 +184,31 @@ export const createClaimsTable = (claims: Record<string, any>): ClaimsObject => 
 };
 
 /**
- * Populates claim, description, and value into an claimsObject
- * @param {String} claim
- * @param {String} value
- * @param {String} description
- * @param {Number} index
- * @param {Object} claimsObject
+ * Populates claim, description, and value into a claimsObject
+ * @param {string} claim
+ * @param {string} value
+ * @param {string} description
+ * @param {number} index
+ * @param {Record<number, [string, string, string]>} claimsObject
  */
 const populateClaim = (
     claim: string,
     value: string,
     description: string,
     index: number,
-    claimsObject: ClaimsObject
+    claimsObject: Record<number, [string, string, string]>
 ): void => {
-    let claims
+    let claimsArray: [string, string, string] = [claim, value, description];
+    claimsObject[index] = claimsArray;
+};
+
+/**
+ * Transforms Unix timestamp to date and returns a string value of that date
+ * @param {string} date Unix timestamp
+ * @returns {string}
+ */
+const changeDateFormat = (date: string): string => {
+    let dateObj = new Date(parseInt(date) * 1000);
+    return `${date} - [${dateObj.toString()}]`;
+};
+
