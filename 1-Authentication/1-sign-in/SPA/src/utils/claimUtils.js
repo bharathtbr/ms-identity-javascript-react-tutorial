@@ -1,10 +1,14 @@
+interface ClaimsObject {
+    [index: number]: [string, string, string];
+}
+
 /**
  * Populate claims table with appropriate description
  * @param {Object} claims ID token claims
  * @returns claimsObject
  */
-export const createClaimsTable = (claims) => {
-    let claimsObj = {};
+export const createClaimsTable = (claims: Record<string, any>): ClaimsObject => {
+    let claimsObj: ClaimsObject = {};
     let index = 0;
 
     Object.keys(claims).forEach((key) => {
@@ -187,20 +191,11 @@ export const createClaimsTable = (claims) => {
  * @param {Number} index
  * @param {Object} claimsObject
  */
-const populateClaim = (claim, value, description, index, claimsObject) => {
-    let claimsArray = [];
-    claimsArray[0] = claim;
-    claimsArray[1] = value;
-    claimsArray[2] = description;
-    claimsObject[index] = claimsArray;
-};
-
-/**
- * Transforms Unix timestamp to date and returns a string value of that date
- * @param {String} date Unix timestamp
- * @returns
- */
-const changeDateFormat = (date) => {
-    let dateObj = new Date(date * 1000);
-    return `${date} - [${dateObj.toString()}]`;
-};
+const populateClaim = (
+    claim: string,
+    value: string,
+    description: string,
+    index: number,
+    claimsObject: ClaimsObject
+): void => {
+    let claims
