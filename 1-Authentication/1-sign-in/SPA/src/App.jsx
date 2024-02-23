@@ -3,27 +3,20 @@
  * Licensed under the MIT License.
  */
 
-import { MsalProvider, AuthenticatedTemplate, useMsal, UnauthenticatedTemplate } from '@azure/msal-react';
+import { PublicClientApplication } from '@azure/msal-browser';
+import { MsalProvider, AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from '@azure/msal-react';
 import { Container } from 'react-bootstrap';
 import { PageLayout } from './components/PageLayout';
 import { IdTokenData } from './components/DataDisplay';
 
 import './styles/App.css';
 
-const MainContent = () => {
-    /**
-     * useMsal is a hook that returns the PublicClientApplication instance.
-     * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-react/docs/hooks.md
-     */
+interface MainContentProps {}
+
+const MainContent: React.FC<MainContentProps> = () => {
     const { instance } = useMsal();
     const activeAccount = instance.getActiveAccount();
 
-    /**
-     * Most applications will need to conditionally render certain components based on whether a user is signed in or not.
-     * msal-react provides 2 easy ways to do this. AuthenticatedTemplate and UnauthenticatedTemplate components will
-     * only render their children if a user is authenticated or unauthenticated, respectively. For more, visit:
-     * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-react/docs/getting-started.md
-     */
     return (
         <div className="App">
             <AuthenticatedTemplate>
@@ -40,14 +33,11 @@ const MainContent = () => {
     );
 };
 
-/**
- * msal-react is built on the React context API and all parts of your app that require authentication must be
- * wrapped in the MsalProvider component. You will first need to initialize an instance of PublicClientApplication
- * then pass this to MsalProvider as a prop. All components underneath MsalProvider will have access to the
- * PublicClientApplication instance via context as well as all hooks and components provided by msal-react. For more, visit:
- * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-react/docs/getting-started.md
- */
-const App = ({ instance }) => {
+interface AppProps {
+    instance: PublicClientApplication;
+}
+
+const App: React.FC<AppProps> = ({ instance }) => {
     return (
         <MsalProvider instance={instance}>
             <PageLayout>
